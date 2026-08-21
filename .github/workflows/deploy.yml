@@ -1,5 +1,5 @@
 name: Terraform Deploy
-on: 
+on:
   push:
     branches:
       - main
@@ -9,11 +9,11 @@ on:
 
 jobs:
   terraform:
-    name: Terraform 
+    name: Terraform
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code 
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Configure AWS credentials
@@ -22,19 +22,19 @@ jobs:
           role-to-assume: arn:aws:iam::118035478456:role/GitHubTFRole
           aws-region: us-east-1
 
-      - name: Setup Terraform 
+      - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.15.3
 
-      - name: Terraform Init 
+      - name: Terraform Init
         working-directory: ./terraform
         run: terraform init
 
       - name: Terraform Plan
         working-directory: ./terraform
-        run terraform plan
+        run: terraform plan
 
-      - name: Terraform Apply 
+      - name: Terraform Apply
         working-directory: ./terraform
         run: terraform apply -auto-approve

@@ -3,47 +3,21 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+    paths:
+      - "terraform/**"
 
 permissions:
   id-token: write
   contents: read
 
 jobs:
-  terraform:
-    name: Terraform
+  plan:
+    name: Terraform Plan
     runs-on: ubuntu-latest
 
     steps:
-      # debug step
-      - name: Show GitHub Context
-        run: |
-          echo "REPO: ${{ github.repository }}"
-          echo "REF: ${{ github.ref }}"
-
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Inspect OIDC claims
-        shell: bash
-        run: |
-          TOKEN=$(curl -s \
-            -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=sts.amazonaws.com" \
-            | jq -r '.value')
-
-          PAYLOAD=$(echo "$TOKEN" | cut -d '.' -f2)
-
-          echo "$PAYLOAD" | base64 -d 2>/dev/null | jq '{
-            iss,
-            aud,
-            sub,
-            repository,
-            ref,
-            job_workflow_ref
-          }'
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -62,8 +36,47 @@ jobs:
 
       - name: Terraform Plan
         working-directory: ./terraform
-        run: terraform plan
+        run: terraform plan -out=tfplan
 
-      - name: Terraform Apply
-        working-directory: ./terraform
-        run: terraform apply -auto-approve
+      - name: Upload Terraform Plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan
+          path: terraform/tfplan
+
+  apply:
+    name: Terraform apply
+    runs-on: ubuntu-latest
+    needs: plan
+
+    environment:
+      name: production
+
+    steps:
+      - name: checkout repostory
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::118035478456:role/GitHubTerraformRole
+          region: us-east-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.0"
+
+      - name: Terraform Init
+        working_directory: terraform
+        run: terraform init
+
+      - name: Download Terraform Plan
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-plan
+          path: terraform
+
+      - name: Apply Terraform Plan
+        working-directory: terraform
+        run: terraform apply -auto-approve tfplan

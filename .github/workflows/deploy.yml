@@ -17,6 +17,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # debug step
+      - name: Show GitHub Context
+        run: |
+          echo "REPO: ${{ github.repository }}"
+          echo "REF: ${{ github.ref }}"
+
       - name: Checkout code
         uses: actions/checkout@v4
 

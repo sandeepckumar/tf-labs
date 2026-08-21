@@ -3,5 +3,5 @@ resource "random_id" "suffix" {
 }
 
 resource "aws_s3_bucket" "test" {
-    bucket = "tf-lab-test-bucket-${random_id.suffix.hex}"
+    bucket = "tf-lab-test2-bucket-${random_id.suffix.hex}"
 }

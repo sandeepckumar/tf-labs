@@ -29,7 +29,7 @@ jobs:
       - name: Bootstrap Terraform
         uses: ./.github/actions/tf-bootstrap
         with:
-          terraform_version: ${{ var.TF_VERSION }}
+          terraform_version: ${{ vars.TF_VERSION }}
           working_directory: ./terraform/iam
 
       - name: Run TF Plan
@@ -53,12 +53,12 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
-          aws-region: ${{ var.REGION }}
+          aws-region: ${{ vars.REGION }}
 
       - name: Bootstrap Terraform
         uses: ./.github/actions/tf-bootstrap
         with:
-          terraform_version: ${{ var.TF_VERSION }}
+          terraform_version: ${{ vars.TF_VERSION }}
           working_directory: ./terraform/iam
 
       - name: Download TF Plan

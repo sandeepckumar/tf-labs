@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: terraform-plan
-          path: terraform/iam/tfplan
+          path: ./terraform/iam/tfplan
 
   apply:
     name: Terraform Apply
@@ -63,7 +63,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: terraform-plan
-          path: terraform/iam/tfplan
+          path: ./terraform/iam/
 
       - name: Apply TF Plan
         working-directory: ./terraform/iam

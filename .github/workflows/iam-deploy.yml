@@ -24,7 +24,7 @@ jobs:
           aws-region: ${{ vars.REGION }}
 
       - name: Bootstrap Terraform
-        uses: ./.github/actions/tf-bootstrap
+        uses: .github/actions/tf-bootstrap
         with:
           terraform_version: ${{ vars.TF_VERSION }}
           working_directory: ./terraform/iam
@@ -54,7 +54,7 @@ jobs:
           aws-region: ${{ vars.REGION }}
 
       - name: Bootstrap Terraform
-        uses: ./.github/actions/tf-bootstrap
+        uses: .github/actions/tf-bootstrap
         with:
           terraform_version: ${{ vars.TF_VERSION }}
           working_directory: ./terraform/iam

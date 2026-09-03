@@ -22,4 +22,5 @@ runs:
 
     - name: Terraform Init
       working-directory: ${{ inputs.working_directory }}
+      shell: bash
       run: terraform init

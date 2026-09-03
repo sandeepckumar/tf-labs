@@ -1,0 +1,25 @@
+name: Terraform Bootstrap
+description: Bootstrap Terraform environment
+
+inputs:
+  terraform_version:
+    description: "Terraform version to install"
+    required: false
+    default: "1.16.1"
+
+  working_directory:
+    description: "Terraform working directory"
+    required: true
+
+runs:
+  using: composite
+
+  steps:
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v4.0.1
+      with:
+        terraform_version: ${{ inputs.terraform_version }}
+
+    - name: Terraform Init
+      working-directory: ${{ inputs.working_directory }}
+      run: terraform init

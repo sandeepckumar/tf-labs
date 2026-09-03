@@ -6,9 +6,6 @@ permissions:
   id-token: write
   contents: read
 
-environment:
-  name: train
-
 jobs:
   destory:
     name: Terraform Destroy

@@ -9,9 +9,6 @@ permissions:
   id-token: write
   contents: read
 
-environment:
-  name: train
-
 jobs:
   plan:
     name: Terraform Plan
@@ -24,7 +21,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE}}
-          aws-region: ${{ var.REGION }}
+          aws-region: ${{ vars.REGION }}
 
       - name: Bootstrap Terraform
         uses: ./.github/actions/tf-bootstrap
@@ -68,5 +65,5 @@ jobs:
           path: terraform/iam/tfplan
 
       - name: Apply TF Plan
-        working-dirctory: terraform/iam/tfplan
+        working-directory: terraform/iam/tfplan
         run: terraform apply -auto-approve tfplan -input=false

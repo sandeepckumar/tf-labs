@@ -66,5 +66,5 @@ jobs:
           path: terraform/iam/tfplan
 
       - name: Apply TF Plan
-        working-directory: terraform/iam/tfplan
+        working-directory: ./terraform/iam
         run: terraform apply -auto-approve tfplan

@@ -67,4 +67,4 @@ jobs:
 
       - name: Apply TF Plan
         working-directory: terraform/iam/tfplan
-        run: terraform apply -auto-approve tfplan -input=false
+        run: terraform apply -auto-approve tfplan

@@ -11,17 +11,9 @@ jobs:
     name: Terraform Destroy
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Run Destroy
+        uses: ./.github/actions/tf-destroy
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE }}
-          aws-region: ${{ vars.REGION }}
-
-      - name: Bootstrap Terraform
-        uses: ./.github/actions/tf-bootstrap
-        with:
-          terraform_version: ${{ vars.TF_VERSION }}
           working_directory: ./terraform/iam
+          role_to_assume: ${{ secrets.AWS_ROLE }}
+          region: ${{ vars.REGION }}

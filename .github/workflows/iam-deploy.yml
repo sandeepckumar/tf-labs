@@ -14,57 +14,21 @@ jobs:
     name: Terraform Plan
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Run Plan
+        uses: ./.github/actions/tf-plan
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE}}
-          aws-region: ${{ vars.REGION }}
-
-      - name: Bootstrap Terraform
-        uses: ./.github/actions/tf-bootstrap
-        with:
-          terraform_version: ${{ vars.TF_VERSION }}
           working_directory: ./terraform/iam
-
-      - name: Run TF Plan
-        working-directory: ./terraform/iam
-        run: terraform plan -out=tfplan -input=false
-
-      - name: Upload TF Plan
-        uses: actions/upload-artifact@v4
-        with:
-          name: terraform-plan
-          path: ./terraform/iam/tfplan
+          role_to_assume: ${{ secrets.AWS_ROLE }}
+          region: ${{ vars.REGION }}
 
   apply:
     name: Terraform Apply
     runs-on: ubuntu-latest
     needs: plan
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Run Apply
+        uses: ./.github/actions/tf-apply
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE }}
-          aws-region: ${{ vars.REGION }}
-
-      - name: Bootstrap Terraform
-        uses: ./.github/actions/tf-bootstrap
-        with:
-          terraform_version: ${{ vars.TF_VERSION }}
           working_directory: ./terraform/iam
-
-      - name: Download TF Plan
-        uses: actions/download-artifact@v4
-        with:
-          name: terraform-plan
-          path: ./terraform/iam/
-
-      - name: Apply TF Plan
-        working-directory: ./terraform/iam
-        run: terraform apply -auto-approve tfplan
+          role_to_assume: ${{ secrets.AWS_ROLE }}
+          region: ${{ vars.REGION }}

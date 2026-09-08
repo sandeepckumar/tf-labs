@@ -34,3 +34,4 @@ jobs:
           working_directory: ./terraform/iam
           role_to_assume: ${{ secrets.AWS_ROLE }}
           region: ${{ vars.REGION }}
+          tf_version: ${{ vars.TF_VERSION }}

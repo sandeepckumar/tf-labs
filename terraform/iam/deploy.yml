@@ -8,3 +8,8 @@ users:
   test03:
     user_name: test03
     user_path: /test03/
+
+groups:
+  test:
+    group_name: test00
+    group_path: /test00/

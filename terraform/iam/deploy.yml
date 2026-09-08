@@ -21,6 +21,7 @@ groups:
     group_path: /test03/
     users:
       - test03
+      - test00
   test04:
     group_name: test04
     group_path: /test04/

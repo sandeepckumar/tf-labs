@@ -9,3 +9,7 @@ output "iam_user_arn" {
 output "iam_group_id" {
   value = { for group in module.iam_group : group.id => group.unique_id }
 }
+
+output "group_members" {
+  value = { for group in module.iam_group : group.id => group.group_users }
+}

@@ -1,5 +1,6 @@
 resource "aws_iam_user" "this" {
-  name          = var.user_name
-  path          = var.user_path
+  for_each      = var.users
+  name          = each.value.user_name
+  path          = each.value.user_path
   force_destroy = true
 }

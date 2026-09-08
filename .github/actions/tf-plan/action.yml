@@ -17,26 +17,26 @@ inputs:
 runs:
   using: composite
 
-steps:
-  - name: Configure AWS Credentials
-    uses: aws-actions/configure-aws-credentials@v4
-    with:
-      role-to-assume: ${{ inputs.role_to_assume }}
-      aws-region: $${{ inputs.region }}
+  steps:
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ inputs.role_to_assume }}
+        aws-region: $${{ inputs.region }}
 
-  - name: Bootstrap Terraform
-    uses: ./.github/actions/tf-bootstrap
-    with:
-      terraform_version: ${{ vars.TF_VERSION }}
-      working_directory: ${{ inputs.working_directory }}
+    - name: Bootstrap Terraform
+      uses: ./.github/actions/tf-bootstrap
+      with:
+        terraform_version: ${{ vars.TF_VERSION }}
+        working_directory: ${{ inputs.working_directory }}
 
-  - name: Run TF Plan
-    working-directory: ${{ inputs.working_directory }}
-    shell: bash
-    run: terraform plan -out=tfplan -input=false
+    - name: Run TF Plan
+      working-directory: ${{ inputs.working_directory }}
+      shell: bash
+      run: terraform plan -out=tfplan -input=false
 
-  - name: Upload TF Plan
-    uses: actions/upload-artifact@v4
-    with:
-      name: terraform-plan
-      path: ${{ inputs.working_directory }}/tfplan
+    - name: Upload TF Plan
+      uses: actions/upload-artifact@v4
+      with:
+        name: terraform-plan
+        path: ${{ inputs.working_directory }}/tfplan

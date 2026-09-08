@@ -4,7 +4,7 @@ resource "aws_iam_group" "this" {
 }
 
 resource "aws_iam_group_membership" "this" {
-  count = length(try(var.group_users, [])) > 1 ? 1 : 0
+  count = length(var.group_users) > 0 ? 1 : 0
   name  = "${var.group_name}-membership"
   users = var.group_users
   group = aws_iam_group.this.name

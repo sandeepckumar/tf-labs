@@ -11,5 +11,5 @@ output "unique_id" {
 }
 
 output "group_users" {
-  value = aws_iam_group_membership.this[0].users
+  value = try(aws_iam_group_membership.this[0].users, [])
 }

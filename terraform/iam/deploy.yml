@@ -24,4 +24,3 @@ groups:
   test04:
     group_name: test04
     group_path: /test04/
-    users:

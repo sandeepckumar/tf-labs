@@ -10,5 +10,5 @@ module "iam_group" {
   source      = "./modules/iam_group"
   group_name  = each.value.group_name
   group_path  = each.value.group_path
-  group_users = each.value.users
+  group_users = try(each.value.users, [])
 }

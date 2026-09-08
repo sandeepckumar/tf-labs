@@ -5,3 +5,6 @@ users:
   test01:
     user_name: test01
     user_path: /test01/
+  test03:
+    user_name: test03
+    user_path: /test03/

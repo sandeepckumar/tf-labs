@@ -14,6 +14,11 @@ inputs:
     description: "AWS Region"
     required: true
 
+  tf_version:
+    description: "Terraform version to install"
+    required: false
+    default: "1.16.1"
+
 runs:
   using: composite
 
@@ -27,7 +32,7 @@ runs:
     - name: Bootstrap Terraform
       uses: ./.github/actions/tf-bootstrap
       with:
-        terraform_version: ${{ vars.TF_VERSION }}
+        terraform_version: ${{ inputs.tf_version }}
         working_directory: ${{ inputs.working_directory }}
 
     - name: Download TF Plan

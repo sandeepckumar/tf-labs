@@ -10,6 +10,18 @@ users:
     user_path: /test03/
 
 groups:
-  test:
+  test00:
     group_name: test00
     group_path: /test00/
+    users:
+      - test00
+      - test01
+  test02:
+    group_name: test03
+    group_path: /test03/
+    users:
+      - test03
+  test04:
+    group_name: test04
+    group_path: /test04/
+    users:

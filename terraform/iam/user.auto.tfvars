@@ -1,6 +1,3 @@
-user_name = "test00"
-user_path = "/test-train/"
-
 users = {
   test00 = {
     user_name = "test00"
